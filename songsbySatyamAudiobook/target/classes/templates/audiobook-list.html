@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Audiobook List</title>
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+    <style>
+        /* Add your CSS here */
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4; /* Light background color for better contrast */
+        }
+
+        h1 {
+            color: #003366; /* Dark blue color */
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            background: #fff; /* White background for the container */
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin: 20px;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #0073e6; /* Blue background for table headers */
+            color: #fff;
+        }
+
+        select {
+            background-color: #b3d9ff; /* Light blue color for the sorting box */
+            border: 1px solid #0073e6; /* Blue border to match the light blue color */
+            padding: 5px;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #0073e6; /* Blue background for the button */
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #005bb5; /* Darker blue for button hover */
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Audiobook List</h1>
+    <div>
+        <label for="sort">Sort by:</label>
+        <select id="sort" name="sort" onchange="sortAudiobooks()">
+            <option value="">None</option>
+            <option value="rating">Rating</option>
+        </select>
+    </div>
+    <table>
+        <thead>
+        <tr>
+            <th>Cover</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Genre</th>
+            <th>Rating</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="audiobook : ${audiobooks}">
+            <td><img th:src="${audiobook.coverImage}" alt="Cover Image" width="100"></td>
+            <td><a th:href="@{/audiobooks/{id}(id=${audiobook.id})}" th:text="${audiobook.title}">Title</a></td>
+            <td th:text="${audiobook.author}">Author</td>
+            <td th:text="${audiobook.genre}">Genre</td>
+            <td th:text="${audiobook.rating}">Rating</td>
+        </tr>
+        </tbody>
+    </table>
+    <script>
+        function sortAudiobooks() {
+            var sort = document.getElementById("sort").value;
+            window.location.href = "/audiobooks?sort=" + sort;
+        }
+    </script>
+</div>
+</body>
+</html>

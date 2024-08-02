@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Audiobook Details</title>
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+    <style>
+        /* Add your CSS here */
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4; /* Light background color for better contrast */
+        }
+
+        h1 {
+            color: #003366; /* Dark blue color */
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            background: #fff; /* White background for the container */
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin: 20px;
+        }
+
+        img {
+            border-radius: 8px;
+        }
+
+        form {
+            margin-top: 20px;
+            text-align: left;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        input, textarea, select, button {
+            display: block;
+            margin: 10px 0;
+            width: 100%;
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        textarea {
+            height: 100px;
+        }
+
+        select {
+            background-color: #b3d9ff; /* Light blue color for the sorting box */
+            border: 1px solid #0073e6; /* Blue border to match the light blue color */
+        }
+
+        button {
+            background-color: #0073e6; /* Blue background for the button */
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #005bb5; /* Darker blue for button hover */
+        }
+
+        .review {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #f9f9f9;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        .review p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1 th:text="${audiobook.title}">Audiobook Title</h1>
+    <div>
+        <img th:src="${audiobook.coverImage}" alt="Cover Image" width="200">
+    </div>
+    <div>
+        <p><strong>Author:</strong> <span th:text="${audiobook.author}">Author</span></p>
+        <p><strong>Genre:</strong> <span th:text="${audiobook.genre}">Genre</span></p>
+        <p><strong>Description:</strong> <span th:text="${audiobook.description}">Description</span></p>
+        <p><strong>Rating:</strong> <span th:text="${audiobook.rating}">Rating</span></p>
+    </div>
+    <h2>Submit a Review</h2>
+    <form th:action="@{/audiobooks/review}" method="post">
+        <input type="hidden" name="id" th:value="${audiobook.id}">
+        <div>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        <div>
+            <label for="comment">Comment:</label>
+            <textarea id="comment" name="comment" required></textarea>
+        </div>
+        <div>
+            <label for="rating">Rating:</label>
+            <select id="rating" name="rating" required>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </div>
+        <div>
+            <button type="submit">Submit Review</button>
+        </div>
+    </form>
+    <h2>User Reviews</h2>
+    <div th:if="${reviews != null}">
+        <div th:each="review : ${reviews}" class="review">
+            <p><strong th:text="${review.username}">Username</strong></p>
+            <p th:text="${review.comment}">Comment</p>
+            <p th:text="'Rating: ' + ${review.rating}">Rating</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>
